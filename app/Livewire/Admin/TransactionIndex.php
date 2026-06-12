@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.admin')]
 class TransactionIndex extends Component
 {
     public string $search = '';
@@ -40,7 +42,6 @@ class TransactionIndex extends Component
 
     public function render()
     {
-        return view('livewire.admin.transaction-index')
-            ->layout('layouts.admin', ['title' => 'Daftar Transaksi']);
+        return view('livewire.admin.transaction-index', ['title' => 'Daftar Transaksi']);
     }
 }

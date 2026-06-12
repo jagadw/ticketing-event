@@ -2,89 +2,39 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\User;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.admin')]
 class UserManagement extends Component
 {
     public string $search = '';
 
-    public array $form;
-
-    public array $users = [];
-
-    public function mount(): void
+    public function toggleStatus(int $id): void
     {
-        $this->form = $this->defaultForm();
-
-        $this->users = [
-            ['id' => 1, 'name' => 'Admin Utama', 'email' => 'admin@ticket.local', 'role' => 'admin', 'status' => 'Active'],
-            ['id' => 2, 'name' => 'Maya Putri', 'email' => 'maya@ticket.local', 'role' => 'user', 'status' => 'Active'],
-            ['id' => 3, 'name' => 'Bima Saputra', 'email' => 'bima@ticket.local', 'role' => 'user', 'status' => 'Suspended'],
-        ];
-    }
-
-    protected function rules(): array
-    {
-        return [
-            'form.name' => ['required', 'string', 'min:3'],
-            'form.email' => ['required', 'email'],
-            'form.role' => ['required', 'in:admin,user'],
-            'form.status' => ['required', 'in:Active,Suspended'],
-        ];
-    }
-
-    public function saveUser(): void
-    {
-        $data = $this->validate()['form'];
-
-        array_unshift($this->users, [
-            'id' => count($this->users) + 1,
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'role' => $data['role'],
-            'status' => $data['status'],
-        ]);
-
-        $this->form = $this->defaultForm();
-    }
-
-    public function deleteUser(int $id): void
-    {
-        $this->users = array_values(array_filter(
-            $this->users,
-            fn (array $user): bool => $user['id'] !== $id,
-        ));
+        $user = User::findOrFail($id);
+        $user->update(['status' => $user->status === 'Active' ? 'Suspended' : 'Active']);
     }
 
     public function getFilteredUsersProperty(): array
     {
         $search = strtolower(trim($this->search));
+        $users = User::all();
 
         if ($search === '') {
-            return $this->users;
+            return $users->toArray();
         }
 
-        return array_values(array_filter($this->users, function (array $user) use ($search): bool {
-            return str_contains(strtolower($user['name']), $search)
-                || str_contains(strtolower($user['email']), $search)
-                || str_contains(strtolower($user['role']), $search)
-                || str_contains(strtolower($user['status']), $search);
-        }));
-    }
-
-    protected function defaultForm(): array
-    {
-        return [
-            'name' => '',
-            'email' => '',
-            'role' => 'user',
-            'status' => 'Active',
-        ];
+        return $users->filter(function ($user) use ($search) {
+            return str_contains(strtolower($user->name), $search)
+                || str_contains(strtolower($user->email), $search)
+                || str_contains(strtolower($user->status ?? 'Active'), $search);
+        })->toArray();
     }
 
     public function render()
     {
-        return view('livewire.admin.user-management')
-            ->layout('layouts.admin', ['title' => 'Management Pengguna']);
+        return view('livewire.admin.user-management', ['title' => 'Management Pengguna']);
     }
 }

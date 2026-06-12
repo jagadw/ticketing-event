@@ -26,7 +26,7 @@
                     <span>Buka management event</span>
                     <span>→</span>
                 </a>
-                <a href="{{ route('admin.promos') }}" class="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+                <a href="{{ route('admin.promos.index') }}" class="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
                     <span>Kelola kode promo</span>
                     <span>→</span>
                 </a>

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.admin')]
 class Dashboard extends Component
 {
     public array $stats = [
@@ -21,7 +23,6 @@ class Dashboard extends Component
 
     public function render()
     {
-        return view('livewire.admin.dashboard')
-            ->layout('layouts.admin', ['title' => 'Dashboard Admin']);
+        return view('livewire.admin.dashboard', ['title' => 'Dashboard Admin']);
     }
 }

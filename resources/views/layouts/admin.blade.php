@@ -38,24 +38,20 @@
                         <span>Management Event</span>
                         <span class="text-xs opacity-70">02</span>
                     </a>
+                    <a href="{{ route('admin.promos.index') }}" class="{{ request()->routeIs('admin.promos.*') ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15' : 'text-slate-600 hover:bg-slate-100' }} flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition">
+                        <span>Management Promo</span>
+                        <span class="text-xs opacity-70">03</span>
+                    </a>
                     <a href="{{ route('admin.transactions') }}" class="{{ request()->routeIs('admin.transactions') ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15' : 'text-slate-600 hover:bg-slate-100' }} flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition">
                         <span>Daftar Transaksi</span>
-                        <span class="text-xs opacity-70">03</span>
+                        <span class="text-xs opacity-70">04</span>
                     </a>
                     <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users') ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15' : 'text-slate-600 hover:bg-slate-100' }} flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition">
                         <span>Management Pengguna</span>
-                        <span class="text-xs opacity-70">04</span>
+                        <span class="text-xs opacity-70">05</span>
                     </a>
                 </div>
 
-                <div class="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-4">
-                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">System Status</p>
-                    <div class="mt-4 space-y-3 text-sm text-slate-600">
-                        <div class="flex items-center justify-between"><span>Server</span><span class="font-medium text-emerald-600">Healthy</span></div>
-                        <div class="flex items-center justify-between"><span>Orders</span><span class="font-medium text-slate-900">Realtime</span></div>
-                        <div class="flex items-center justify-between"><span>Users</span><span class="font-medium text-slate-900">Synced</span></div>
-                    </div>
-                </div>
             </nav>
         </aside>
 
@@ -68,12 +64,10 @@
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <div class="hidden rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-500 shadow-sm sm:block">Livewire UI</div>
                         <div class="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">A</div>
                     </div>
                 </div>
             </header>
-
             <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
                 {{ $slot }}
             </main>

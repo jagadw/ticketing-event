@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin;
 
 use App\Models\events;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.admin')]
 class EventIndex extends Component
 {
     public string $search = '';
@@ -41,7 +43,6 @@ class EventIndex extends Component
 
     public function render()
     {
-        return view('livewire.admin.event-index')
-            ->layout('layouts.admin', ['title' => 'Daftar Event']);
+        return view('livewire.admin.event-index', ['title' => 'Daftar Event']);
     }
 }

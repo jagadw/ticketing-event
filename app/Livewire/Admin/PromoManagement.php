@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin;
 
 use App\Models\promos;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.admin')]
 class PromoManagement extends Component
 {
     public string $search = '';
@@ -137,7 +139,6 @@ class PromoManagement extends Component
 
     public function render()
     {
-        return view('livewire.admin.promo-management')
-            ->layout('layouts.admin', ['title' => 'Management Promo']);
+        return view('livewire.admin.promo-management', ['title' => 'Management Promo']);
     }
 }

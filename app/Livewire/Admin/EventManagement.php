@@ -3,9 +3,11 @@
 namespace App\Livewire\Admin;
 
 use App\Models\events;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
+#[Layout('layouts.admin')]
 class EventManagement extends Component
 {
     use WithFileUploads;
@@ -129,7 +131,6 @@ class EventManagement extends Component
 
     public function render()
     {
-        return view('livewire.admin.event-management')
-            ->layout('layouts.admin', ['title' => 'Management Event']);
+        return view('livewire.admin.event-management', ['title' => 'Management Event']);
     }
 }
