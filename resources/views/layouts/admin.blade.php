@@ -34,7 +34,7 @@
                         <span>Dashboard</span>
                         <span class="text-xs opacity-70">01</span>
                     </a>
-                    <a href="{{ route('admin.events') }}" class="{{ request()->routeIs('admin.events') ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15' : 'text-slate-600 hover:bg-slate-100' }} flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition">
+                    <a href="{{ route('admin.events.index') }}" class="{{ request()->routeIs('admin.events.*') ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15' : 'text-slate-600 hover:bg-slate-100' }} flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition">
                         <span>Management Event</span>
                         <span class="text-xs opacity-70">02</span>
                     </a>

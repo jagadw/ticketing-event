@@ -2,25 +2,27 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\events;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EventManagement extends Component
 {
+    use WithFileUploads;
+
     public string $search = '';
 
     public array $form;
 
-    public array $events = [];
+    public $image;
+
+    public bool $isEditMode = false;
+
+    public ?int $editingId = null;
 
     public function mount(): void
     {
         $this->form = $this->defaultForm();
-
-        $this->events = [
-            ['id' => 1, 'title' => 'Seminar Startup Growth', 'event_date' => '2026-06-18 19:00', 'location' => 'Jakarta Convention Center', 'ticket_price' => 250000, 'quota' => 250, 'status' => 'Published'],
-            ['id' => 2, 'title' => 'Music Night Festival', 'event_date' => '2026-07-02 20:00', 'location' => 'Lapangan Banteng', 'ticket_price' => 175000, 'quota' => 800, 'status' => 'Draft'],
-            ['id' => 3, 'title' => 'Workshop UI Minimal', 'event_date' => '2026-07-10 09:00', 'location' => 'Online Zoom', 'ticket_price' => 99000, 'quota' => 120, 'status' => 'Published'],
-        ];
     }
 
     protected function rules(): array
@@ -32,47 +34,84 @@ class EventManagement extends Component
             'form.location' => ['required', 'string', 'min:3'],
             'form.ticket_price' => ['required', 'numeric', 'min:0'],
             'form.quota' => ['required', 'integer', 'min:1'],
+            'form.status' => ['required', 'in:Draft,Published'],
+            'image' => ['nullable', 'image', 'max:2048'],
         ];
     }
 
     public function saveEvent(): void
     {
-        $data = $this->validate()['form'];
+        $this->validate();
 
-        array_unshift($this->events, [
-            'id' => count($this->events) + 1,
-            'title' => $data['title'],
-            'event_date' => $data['event_date'],
-            'location' => $data['location'],
-            'ticket_price' => (float) $data['ticket_price'],
-            'quota' => (int) $data['quota'],
-            'status' => 'Draft',
-        ]);
+        $eventData = $this->form;
+
+        if ($this->image) {
+            $eventData['image'] = $this->image->store('events', 'public');
+        }
+
+        if ($this->isEditMode && $this->editingId) {
+            $event = events::findOrFail($this->editingId);
+            $event->update($eventData);
+            $this->isEditMode = false;
+            $this->editingId = null;
+        } else {
+            events::create($eventData);
+        }
 
         $this->form = $this->defaultForm();
+        $this->image = null;
+    }
+
+    public function editEvent(int $id): void
+    {
+        $event = events::findOrFail($id);
+        $this->isEditMode = true;
+        $this->editingId = $id;
+        $this->form = [
+            'title' => $event->title,
+            'description' => $event->description,
+            'event_date' => $event->event_date?->format('Y-m-d\TH:i'),
+            'location' => $event->location,
+            'ticket_price' => $event->ticket_price,
+            'quota' => $event->quota,
+            'status' => $event->status,
+        ];
+    }
+
+    public function cancelEdit(): void
+    {
+        $this->isEditMode = false;
+        $this->editingId = null;
+        $this->form = $this->defaultForm();
+        $this->image = null;
     }
 
     public function deleteEvent(int $id): void
     {
-        $this->events = array_values(array_filter(
-            $this->events,
-            fn (array $event): bool => $event['id'] !== $id,
-        ));
+        events::destroy($id);
+    }
+
+    public function toggleStatus(int $id): void
+    {
+        $event = events::findOrFail($id);
+        $newStatus = $event->status === 'Published' ? 'Draft' : 'Published';
+        $event->update(['status' => $newStatus]);
     }
 
     public function getFilteredEventsProperty(): array
     {
         $search = strtolower(trim($this->search));
+        $events = events::all();
 
         if ($search === '') {
-            return $this->events;
+            return $events->toArray();
         }
 
-        return array_values(array_filter($this->events, function (array $event) use ($search): bool {
-            return str_contains(strtolower($event['title']), $search)
-                || str_contains(strtolower($event['location']), $search)
-                || str_contains(strtolower($event['status']), $search);
-        }));
+        return $events->filter(function ($event) use ($search) {
+            return str_contains(strtolower($event->title), $search)
+                || str_contains(strtolower($event->location), $search)
+                || str_contains(strtolower($event->status), $search);
+        })->toArray();
     }
 
     protected function defaultForm(): array
@@ -84,6 +123,7 @@ class EventManagement extends Component
             'location' => '',
             'ticket_price' => '',
             'quota' => '',
+            'status' => 'Draft',
         ];
     }
 

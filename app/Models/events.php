@@ -15,10 +15,12 @@ class events extends Model
     protected $fillable = [
         'title',
         'description',
+        'image',
         'event_date',
         'location',
         'ticket_price',
         'quota',
+        'status',
     ];
 
     protected function casts(): array
