@@ -16,19 +16,26 @@ class transactions extends Model
         'user_id',
         'event_id',
         'promo_id',
-        'ticket_quantity',
-        'total_price',
-        'payment_status',
+        'quantity',
+        'subtotal',
+        'discount',
+        'total',
         'payment_method',
+        'status',
+        'paid_at',
+        'payment_proof',
     ];
 
     protected function casts(): array
     {
         return [
             'promo_id' => 'integer',
-            'ticket_quantity' => 'integer',
-            'total_price' => 'decimal:2',
-            'payment_status' => 'string',
+            'quantity' => 'integer',
+            'subtotal' => 'decimal:2',
+            'discount' => 'decimal:2',
+            'total' => 'decimal:2',
+            'status' => 'string',
+            'paid_at' => 'datetime',
         ];
     }
 
