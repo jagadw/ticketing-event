@@ -15,6 +15,12 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
+    public function getRememberTokenName(): ?string
+    {
+        return null;
+    }
+
+
     protected $fillable = [
         'name',
         'email',

@@ -4,7 +4,6 @@
             <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Transactions</p>
                 <h3 class="mt-1 text-2xl font-semibold text-slate-950">Daftar transaksi</h3>
-                <p class="mt-2 text-sm text-slate-600">Pantau status pembayaran, metode, dan total order dari satu layar.</p>
             </div>
 
             <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">

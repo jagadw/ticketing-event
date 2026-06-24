@@ -3,9 +3,9 @@
         <div class="flex items-start justify-between gap-4 mb-6">
             <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Edit Promo</p>
-                <h3 class="mt-1 text-2xl font-semibold text-slate-950">Edit: {{ $promo->promo_code }}</h3>
+                <h3 class="mt-1 text-2xl font-semibold text-slate-950">{{ $promo->promo_code }}</h3>
             </div>
-            <a href="{{ route('admin.promos.index') }}" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-200">← Kembali</a>
+            <a href="{{ route('admin.promos.index') }}" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-200">Kembali</a>
         </div>
 
         <form wire:submit.prevent="updatePromo" class="space-y-4">

@@ -23,7 +23,6 @@ class TransactionController
             $event = events::findOrFail($validated['event_id']);
             $user = $request->user();
 
-            // Check quota
             if ($event->quota < $validated['quantity']) {
                 return response()->json([
                     'success' => false,
@@ -128,7 +127,6 @@ class TransactionController
                 'paid_at' => now(),
             ]);
 
-            // Update quota event
             $transaction->event->update([
                 'quota' => $transaction->event->quota - $transaction->quantity,
             ]);

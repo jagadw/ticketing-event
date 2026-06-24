@@ -2,7 +2,7 @@
     <section class="rounded-[2rem] border border-slate-200/80 bg-white/85 p-6 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Promos Table</p>
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Promo</p>
                 <h3 class="mt-1 text-2xl font-semibold text-slate-950">Daftar promo</h3>
             </div>
             <div class="flex gap-3 flex-wrap">
