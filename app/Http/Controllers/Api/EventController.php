@@ -2,84 +2,59 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\events;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
-class EventController
+class EventController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * GET /api/events
+     * Query params: search, status
+     */
+    public function index(Request $request): JsonResponse
     {
-        try {
-            $perPage = $request->query('per_page', 10);
-            $search = $request->query('search', '');
-            $status = $request->query('status', 'Published');
+        $query = events::query()->where('status', 'Published');
 
-            $query = events::query();
-
-            if ($search) {
-                $query->where('title', 'like', "%$search%")
-                    ->orWhere('description', 'like', "%$search%")
-                    ->orWhere('location', 'like', "%$search%");
-            }
-
-            if ($status) {
-                $query->where('status', $status);
-            }
-
-            $events = $query->orderBy('event_date', 'asc')->paginate($perPage);
-
-            return response()->json([
-                'success' => true,
-                'data' => $events->map(function ($event) {
-                    return [
-                        'id' => $event->id,
-                        'title' => $event->title,
-                        'description' => $event->description,
-                        'image' => $event->image ? asset('storage/' . $event->image) : null,
-                        'event_date' => $event->event_date->format('Y-m-d H:i'),
-                        'location' => $event->location,
-                        'ticket_price' => (float) $event->ticket_price,
-                        'quota' => $event->quota,
-                        'status' => $event->status,
-                    ];
-                }),
-                'meta' => [
-                    'current_page' => $events->currentPage(),
-                    'total' => $events->total(),
-                    'per_page' => $events->perPage(),
-                    'last_page' => $events->lastPage(),
-                ]
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error: ' . $e->getMessage(),
-            ], 500);
+        // Search by title atau description
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%");
+            });
         }
+
+        $events = $query->orderBy('event_date', 'asc')->get();
+
+        return response()->json(
+            $events->map(fn($e) => $this->formatEvent($e))
+        );
     }
 
-    public function show(events $event)
+    /**
+     * GET /api/events/{event}
+     */
+    public function show(events $event): JsonResponse
     {
-        try {
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'id' => $event->id,
-                    'title' => $event->title,
-                    'description' => $event->description,
-                    'image' => $event->image ? asset('storage/' . $event->image) : null,
-                    'event_date' => $event->event_date->format('Y-m-d H:i'),
-                    'location' => $event->location,
-                    'ticket_price' => (float) $event->ticket_price,
-                    'quota' => $event->quota,
-                    'status' => $event->status,
-                ]
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error: ' . $e->getMessage(),
-            ], 500);
-        }
+        return response()->json($this->formatEvent($event));
+    }
+
+    private function formatEvent(events $event): array
+    {
+        return [
+            'id'           => $event->id,
+            'title'        => $event->title,
+            'description'  => $event->description,
+            'event_date'   => $event->event_date?->toISOString(),
+            'location'     => $event->location,
+            'ticket_price' => (float) $event->ticket_price,
+            'quota'        => $event->quota,
+            'image'        => $event->image,
+            'status'       => $event->status,
+            'created_at'   => $event->created_at?->toISOString(),
+        ];
     }
 }
