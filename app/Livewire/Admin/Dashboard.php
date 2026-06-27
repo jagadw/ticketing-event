@@ -8,21 +8,47 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class Dashboard extends Component
 {
-    public array $stats = [
-        ['label' => 'Total Event Aktif', 'value' => 18, 'note' => '+3 minggu ini'],
-        ['label' => 'Transaksi Pending', 'value' => 42, 'note' => 'Perlu follow up'],
-        ['label' => 'Pengguna Terdaftar', 'value' => 1280, 'note' => '+86 bulan ini'],
-        ['label' => 'Revenue Bulan Ini', 'value' => 'Rp 84,6 jt', 'note' => 'Dari 312 order'],
-    ];
+    public array $stats = [];
 
-    public array $timeline = [
-        ['title' => 'Promo FLASH10 aktif', 'detail' => 'Kode promo baru dipasang untuk event akhir pekan.', 'time' => '12 menit lalu'],
-        ['title' => 'Pembayaran diverifikasi', 'detail' => '18 transaksi berstatus paid dan siap diproses.', 'time' => '1 jam lalu'],
-        ['title' => 'Event baru ditambahkan', 'detail' => 'Pameran Tech Night 2026 dijadwalkan untuk Agustus.', 'time' => '3 jam lalu'],
-    ];
+    public function mount(): void
+    {
+        $totalEventAktif = \App\Models\events::query()
+            ->where('status', 'Active')
+            ->count();
+
+        $transaksiPending = \App\Models\transactions::query()
+            ->where('status', 'pending')
+            ->count();
+
+        $penggunaTerdaftar = \App\Models\User::query()
+            ->count();
+
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+
+        $transactionsThisMonth = \App\Models\transactions::query()
+            ->where('status', 'paid')
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->get();
+
+        $revenue = $transactionsThisMonth->sum('total_price');
+        $ordersCount = $transactionsThisMonth->count();
+
+        $this->stats = [
+            ['label' => 'Total Event Aktif', 'value' => $totalEventAktif, 'note' => 'Jumlah event aktif'],
+            ['label' => 'Transaksi Pending', 'value' => $transaksiPending, 'note' => 'Jumlah transaksi pending'],
+            ['label' => 'Pengguna Terdaftar', 'value' => $penggunaTerdaftar, 'note' => 'Pengguna baru bulan ini'],
+            [
+                'label' => 'Revenue Bulan Ini',
+                'value' => 'Rp ' . number_format($revenue / 1000000, 1, ',', '.') . ' jt',
+                'note' => 'Dari ' . $ordersCount . ' order',
+            ],
+        ];
+    }
 
     public function render()
     {
         return view('livewire.admin.dashboard', ['title' => 'Dashboard Admin']);
     }
 }
+
