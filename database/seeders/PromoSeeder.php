@@ -11,7 +11,7 @@ class PromoSeeder extends Seeder
     {
         promos::query()->insert([
             [
-                'promo_code' => 'FLASH10',
+                'promo_code' => 'CUCIGUDANG',
                 'discount_percentage' => 10,
                 'start_date' => '2026-06-01 00:00:00',
                 'end_date' => '2026-06-30 23:59:59',
@@ -20,7 +20,7 @@ class PromoSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'promo_code' => 'JUNE15',
+                'promo_code' => 'SEPTEMBERCERIA',
                 'discount_percentage' => 15,
                 'start_date' => '2026-06-10 00:00:00',
                 'end_date' => '2026-07-10 23:59:59',
@@ -29,7 +29,7 @@ class PromoSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'promo_code' => 'ARCHIVE5',
+                'promo_code' => 'PENGGUNABARU',
                 'discount_percentage' => 5,
                 'start_date' => '2026-05-01 00:00:00',
                 'end_date' => '2026-05-31 23:59:59',

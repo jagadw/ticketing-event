@@ -35,18 +35,6 @@ class EventSeeder extends Seeder
                 'updated_at'   => now(),
             ],
             [
-                'title'        => 'Workshop UI Minimal',
-                'description'  => 'Workshop praktis untuk desain antarmuka bersih, modern, dan fokus pada pengalaman pengguna.',
-                'event_date'   => '2026-07-10 09:00:00',
-                'location'     => 'Online (Zoom)',
-                'ticket_price' => 99000,
-                'quota'        => 120,
-                'image'        => null,
-                'status'       => 'Published',
-                'created_at'   => now(),
-                'updated_at'   => now(),
-            ],
-            [
                 'title'        => 'Bali Marathon 2026',
                 'description'  => 'Lari maraton tahunan di Bali.',
                 'event_date'   => '2026-08-15 05:00:00',
