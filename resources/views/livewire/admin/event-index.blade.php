@@ -7,7 +7,7 @@
             </div>
             <div class="flex gap-3 flex-wrap">
                 <div class="flex-1 sm:flex-none">
-                    <input wire:model="search" type="text" placeholder="Cari event, lokasi, status..." class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white">
+                    {{-- <input wire:model="search" type="text" placeholder="Cari event, lokasi, status..." class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white"> --}}
                 </div>
                 <a href="{{ route('admin.events.create') }}" class="inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-emerald-700">
                     + Tambah Event
