@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\transactions;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -16,11 +17,27 @@ class TransactionIndex extends Component
 
     public function mount(): void
     {
-        $this->transactions = [
-            ['id' => 'TRX-2026-0001', 'user' => 'Alya Putri', 'event' => 'Seminar Startup Growth', 'quantity' => 2, 'total' => 500000, 'status' => 'paid', 'method' => 'Midtrans', 'date' => '2026-06-10 11:24'],
-            ['id' => 'TRX-2026-0002', 'user' => 'Rizky Ramadhan', 'event' => 'Workshop UI Minimal', 'quantity' => 1, 'total' => 99000, 'status' => 'pending', 'method' => 'Transfer', 'date' => '2026-06-10 12:18'],
-            ['id' => 'TRX-2026-0003', 'user' => 'Nabila Sari', 'event' => 'Music Night Festival', 'quantity' => 4, 'total' => 700000, 'status' => 'cancelled', 'method' => 'E-Wallet', 'date' => '2026-06-09 20:41'],
-        ];
+        $this->loadTransactions();
+    }
+
+    public function loadTransactions(): void
+    {
+        $this->transactions = transactions::with(['user', 'event'])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($transaction) {
+                return [
+                    'id' => $transaction->id,
+                    'user' => $transaction->user->name,
+                    'event' => $transaction->event->title,
+                    'method' => $transaction->payment_method,
+                    'quantity' => $transaction->quantity,
+                    'status' => $transaction->status,
+                    'total' => $transaction->total,
+                    'date' => $transaction->created_at?->format('d M Y H:i'),
+                ];
+            })
+            ->toArray();
     }
 
     public function getFilteredTransactionsProperty(): array
