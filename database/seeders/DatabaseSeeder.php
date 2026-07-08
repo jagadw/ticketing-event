@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             EventSeeder::class,
             PromoSeeder::class,
-            TransactionSeeder::class,
         ]);
     }
 }

@@ -11,16 +11,16 @@ class UserSeeder extends Seeder
     {
         User::query()->insert([
             [
-                'name' => 'Admin Utama',
-                'email' => 'admin@ticket.local',
-                'password' => bcrypt('password'),
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('admin123'),
                 'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'Maya Putri',
-                'email' => 'maya@ticket.local',
+                'email' => 'maya@gmail.com',
                 'password' => bcrypt('password'),
                 'role' => 'user',
                 'created_at' => now(),
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Bima Saputra',
-                'email' => 'bima@ticket.local',
+                'email' => 'bima@gmail.com',
                 'password' => bcrypt('password'),
                 'role' => 'user',
                 'created_at' => now(),
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Nabila Sari',
-                'email' => 'nabila@ticket.local',
+                'email' => 'nabila@gmail.com',
                 'password' => bcrypt('password'),
                 'role' => 'user',
                 'created_at' => now(),

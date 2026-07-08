@@ -6,7 +6,7 @@
                 <h3 class="mt-1 text-2xl font-semibold text-slate-950">Daftar pengguna</h3>
             </div>
             <div class="w-full sm:w-72">
-                <input wire:model="search" type="text" placeholder="Cari nama, email, status..." class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white">
+                {{-- <input wire:model="search" type="text" placeholder="Cari nama, email, status..." class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white"> --}}
             </div>
         </div>
 

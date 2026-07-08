@@ -13,17 +13,11 @@ class transactions extends Model
     protected $table = 'transactions';
 
     protected $fillable = [
-        'user_id',
-        'event_id',
-        'promo_id',
-        'quantity',
-        'subtotal',
-        'discount',
-        'total',
-        'payment_method',
-        'status',
-        'paid_at',
-        'payment_proof',
+        'user_id', 'event_id', 'promo_id',
+        'quantity', 'subtotal', 'discount', 'total',
+        'payment_method', 'status', 'paid_at', 'payment_proof',
+        'midtrans_order_id',  
+        'snap_token',         
     ];
 
     protected function casts(): array
@@ -33,9 +27,9 @@ class transactions extends Model
             'quantity' => 'integer',
             'subtotal' => 'decimal:2',
             'discount' => 'decimal:2',
-            'total' => 'decimal:2',
-            'status' => 'string',
-            'paid_at' => 'datetime',
+            'total'    => 'decimal:2',
+            'status'   => 'string',
+            'paid_at'  => 'datetime',
         ];
     }
 

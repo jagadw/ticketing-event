@@ -6,7 +6,7 @@
                 <h3 class="mt-1 text-2xl font-semibold text-slate-950">Daftar transaksi</h3>
             </div>
 
-            <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
+            {{-- <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
                 <input wire:model="search" type="text" placeholder="Cari kode, user, event..." class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white sm:w-80">
                 <select wire:model="statusFilter" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white sm:w-44">
                     <option value="all">Semua status</option>
@@ -14,7 +14,7 @@
                     <option value="paid">Paid</option>
                     <option value="cancelled">Cancelled</option>
                 </select>
-            </div>
+            </div> --}}
         </div>
 
         <div class="mt-6 overflow-hidden rounded-3xl border border-slate-200">
